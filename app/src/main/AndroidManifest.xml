@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright (c) 2015 Hai Bison
+
+    See the file LICENSE at the root directory of this project for copying permission.
+-->
+
+<manifest package="haibison.android.wake_lock_service"/>
