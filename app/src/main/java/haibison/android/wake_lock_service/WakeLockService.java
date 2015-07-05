@@ -25,7 +25,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import static android.text.format.DateUtils.MINUTE_IN_MILLIS;
+import static android.text.format.DateUtils.SECOND_IN_MILLIS;
 
 /**
  * Base service which uses {@link android.os.PowerManager.WakeLock} for its entire life time.
@@ -66,7 +66,7 @@ public class WakeLockService extends Service {
     /**
      * Maximum idle time, in milliseconds.
      */
-    public static final long MAX_IDLE_TIME = MINUTE_IN_MILLIS;
+    public static final long MAX_IDLE_TIME = SECOND_IN_MILLIS * 10;
 
     /**
      * The service is idle.
