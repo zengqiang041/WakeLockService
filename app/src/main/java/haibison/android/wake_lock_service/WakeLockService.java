@@ -117,23 +117,17 @@ public class WakeLockService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        /**
-         * Get PowerManager
-         */
+        // Get PowerManager
         mPowerManager = (PowerManager) getSystemService(POWER_SERVICE);
 
-        /**
-         * Acquire new wake lock.
-         */
+        // Acquire new wake lock.
         if (checkPermission(Manifest.permission.WAKE_LOCK, android.os.Process.myPid(), android.os.Process.myUid())
                 == PackageManager.PERMISSION_GRANTED) {
             mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, CLASSNAME);
             mWakeLock.acquire();
         }//if
 
-        /**
-         * Create thread pool executor
-         */
+        // Create thread pool executor
         mThreadPoolExecutor = new ThreadPoolExecutor(1, Runtime.getRuntime()
                 .availableProcessors(), MAX_IDLE_TIME, TimeUnit.MILLISECONDS,
                 mWorkerQueue) {
@@ -252,19 +246,18 @@ public class WakeLockService extends Service {
 
     @Override
     public void onDestroy() {
-        /**
-         * Release wake lock.
-         */
+        // Release wake lock.
         try {
             if (mWakeLock != null && mWakeLock.isHeld()) mWakeLock.release();
         } catch (Throwable t) {
             Log.e(CLASSNAME, t.getMessage(), t);
         }
 
-        /**
-         * Cancel schedule to stop self, if any.
-         */
+        // Cancel schedule to stop self, if any.
         cancelScheduleToStopSelf();
+
+        // Shutdown all tasks
+        mThreadPoolExecutor.shutdownNow();
 
         super.onDestroy();
     }// onDestroy()
@@ -331,9 +324,7 @@ public class WakeLockService extends Service {
                 if (listener == null || listener == l) l.onStateChanged(state);
                 if (listener == l) break;
             } catch (RemoteException e) {
-                /**
-                 * Ignore it. RemoteCallbackList will handle this exception for us.
-                 */
+                // Ignore it. RemoteCallbackList will handle this exception for us.
             }
         }// for
         mEventListeners.finishBroadcast();
@@ -454,9 +445,7 @@ public class WakeLockService extends Service {
                 if (listener == null || listener == l) l.onMessage(msgId, msg);
                 if (listener == l) break;
             } catch (RemoteException e) {
-                /**
-                 * Ignore it. RemoteCallbackList will handle this exception for us.
-                 */
+                // Ignore it. RemoteCallbackList will handle this exception for us.
             }
         }// for
         mEventListeners.finishBroadcast();
