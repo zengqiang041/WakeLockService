@@ -47,7 +47,7 @@ public class WakeLockService extends Service {
     /**
      * The library version name.
      */
-    public static final String LIB_VERSION_NAME = "0.0.2";
+    public static final String LIB_VERSION_NAME = "0.0.3";
 
     private static final String CLASSNAME = WakeLockService.class.getName();
 
