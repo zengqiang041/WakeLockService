@@ -1,9 +1,13 @@
 # WakeLockService
 
-* Version: 0.0.3
+* Version: 0.0.4
 
 
 # History
+
+* Version 0.0.4
+    + *Release: July 20th, 2015*
+    + `WakeLockService`: add protected method `shouldUseWakeLock()`.
 
 * Version 0.0.3
     + *Release: July 15th, 2015*
