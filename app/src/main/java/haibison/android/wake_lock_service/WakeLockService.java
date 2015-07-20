@@ -113,6 +113,15 @@ public class WakeLockService extends Service {
     private final BlockingQueue<Runnable> mWorkerQueue = new LinkedBlockingQueue<Runnable>();
     private ThreadPoolExecutor mThreadPoolExecutor;
 
+    /**
+     * Will be called by this service to confirm using wake lock or not. Default implementation returns {@code true}.
+     *
+     * @return {@code true} or {@code false}.
+     */
+    protected boolean shouldUseWakeLock() {
+        return true;
+    }//shouldUseWakeLock()
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -121,8 +130,9 @@ public class WakeLockService extends Service {
         mPowerManager = (PowerManager) getSystemService(POWER_SERVICE);
 
         // Acquire new wake lock.
-        if (checkPermission(Manifest.permission.WAKE_LOCK, android.os.Process.myPid(), android.os.Process.myUid())
-                == PackageManager.PERMISSION_GRANTED) {
+        if (shouldUseWakeLock() &&
+                checkPermission(Manifest.permission.WAKE_LOCK, android.os.Process.myPid(), android.os.Process.myUid())
+                        == PackageManager.PERMISSION_GRANTED) {
             mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, CLASSNAME);
             mWakeLock.acquire();
         }//if
